@@ -9,15 +9,17 @@ public class NumberInWords {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter a number");
 		int number = sc.nextInt();
-		int reverse = 0;
+		int original = number;
+		double numOfDigits = 0;
 		
-		while(number>0) {
-			int digit = number%10;
-			reverse = reverse*10 + digit;
-			number /= 10;
+		while(original!=0) {
+			numOfDigits++;
+			original /= 10;
 		}
-		while(reverse>0) {
-			int digit = reverse% 10;
+//		System.out.print(number+ " " + original + " " + numOfDigits);
+		while(numOfDigits>0) {
+			double digit1 = number/ (Math.pow(10, numOfDigits-1));
+			int digit = (int) digit1;
 			
 			switch(digit) {
 			
@@ -52,7 +54,8 @@ public class NumberInWords {
 				System.out.print("Nine ");
 				break;
 			}
-			reverse /= 10;
+			number %= (Math.pow(10, numOfDigits-1));
+			numOfDigits--;
 			
 		}
 
