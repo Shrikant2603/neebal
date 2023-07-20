@@ -10,12 +10,8 @@ public class BinaryPattern {
 		System.out.print("Enter a number");
 		int num = sc.nextInt();
 		for(int i=num;i>=1;i--){
-			for(int j=i;j<=num;j++){
-			if(j%2==0)
-				System.out.print("0");
-			else
-				System.out.print("1");
-			}
+			for(int j=i;j<=num;j++)
+				System.out.print(j%2);
 			System.out.println();
 		}
 	}

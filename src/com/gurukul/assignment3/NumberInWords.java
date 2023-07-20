@@ -9,55 +9,49 @@ public class NumberInWords {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter a number");
 		int number = sc.nextInt();
-		int original = number;
-		double numOfDigits = 0;
+		String ans = "";
 		
-		while(original!=0) {
-			numOfDigits++;
-			original /= 10;
-		}
 //		System.out.print(number+ " " + original + " " + numOfDigits);
-		while(numOfDigits>0) {
-			double digit1 = number/ (Math.pow(10, numOfDigits-1));
-			int digit = (int) digit1;
+		while(number>0) {
+			int digit = number%10;
 			
 			switch(digit) {
 			
 			case 0: 
-				System.out.print("Zero ");
+				ans = ("Zero ") + ans;
 				break;
 			case 1: 
-				System.out.print("One ");
+				ans = ("One ") + ans;
 				break;
 			case 2: 
-				System.out.print("Two ");
+				ans = ("Two ") + ans;
 				break;
 			case 3: 
-				System.out.print("Three ");
+				ans = ("Three ") + ans;
 				break;
 			case 4: 
-				System.out.print("Four ");
+				ans = ("Four ") + ans;
 				break;
 			case 5: 
-				System.out.print("Five ");
+				ans = ("Five ") + ans;
 				break;
 			case 6: 
-				System.out.print("Six ");
+				ans = ("Six ") + ans;
 				break;
 			case 7: 
-				System.out.print("Seven ");
+				ans = ("Seven ") + ans;
 				break;
 			case 8: 
-				System.out.print("Eight ");
+				ans = ("Eight ") + ans;
 				break;
 			case 9: 
-				System.out.print("Nine ");
+				ans = ("Nine ") + ans;
 				break;
 			}
-			number %= (Math.pow(10, numOfDigits-1));
-			numOfDigits--;
+			number /=10;
 			
 		}
+		System.out.print(ans);
 
 	}
 
