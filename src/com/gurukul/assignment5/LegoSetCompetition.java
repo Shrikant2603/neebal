@@ -7,8 +7,14 @@ class CompetitionLog {
     private String completeSets;
     private String incompleteSets;
     private int piecesBuilt;
-    static int days;
+    static int days = 1;
     static int totalPieces;
+    static String set1;
+    static String set2;
+    static String set3;
+    static int num1;
+    static int num2;
+    static int num3;
 
     CompetitionLog(int playerName, String completeSets, String incompleteSets, int piecesBuilt) {
 	this.playerNumber = playerName;
@@ -45,6 +51,27 @@ class CompetitionLog {
 	this.piecesBuilt = piecesBuilt;
     }
 
+    public void calc() {
+	int remPieces = this.getPiecesBuilt();
+	if (remPieces >= num1) {
+	    this.setCompleteSets(this.getCompleteSets() + set1 + ", ");
+	    this.setIncompleteSets(set2 + ", " + set3);
+	}
+	remPieces -= num1;
+	if (remPieces >= num2) {
+	    this.setCompleteSets(set1 + ", " + set2);
+	    this.setIncompleteSets(set3);
+
+	}
+	remPieces -= num2;
+	if (remPieces >= num3) {
+	    this.setCompleteSets(set1 + ", " + set2 + ", " + set3);
+	    this.setIncompleteSets(" none");
+
+	}
+
+    }
+
     public String toString() {
 	return "Player " + playerNumber + " completed the following sets: " + completeSets + "\n" + "Player "
 		+ playerNumber + " did not completed the following sets: " + incompleteSets + "\n" + "Player "
@@ -56,12 +83,12 @@ class CompetitionLog {
 	// TODO Auto-generated method stub
 	String s = "Congratulations to player " + this.playerNumber + " for winning the Lego Set Competition!" + "\n"
 		+ "Additional information about the competition results is below" + "\n" + "Player " + this.playerNumber
-		+ " completed the following sets:" + this.completeSets + "\n" + "Player " + this.playerNumber
-		+ " did not complet the following sets:" + this.incompleteSets + "\n" + "Player " + this.playerNumber
+		+ " completed the following sets: " + this.completeSets + "\n" + "Player " + this.playerNumber
+		+ " did not complet the following sets :" + this.incompleteSets + "\n" + "Player " + this.playerNumber
 		+ " built a total of " + this.piecesBuilt + " pieces." + "\n"
 		+ "Additional information about the competition results is below" + "\n" + "Player " + t.playerNumber
-		+ " completed the following sets:" + t.completeSets + "\n" + "Player " + t.playerNumber
-		+ " did not complete the following sets:" + t.incompleteSets + "\n" + "Player " + t.playerNumber
+		+ " completed the following sets :" + t.completeSets + "\n" + "Player " + t.playerNumber
+		+ " did not complete the following sets :" + t.incompleteSets + "\n" + "Player " + t.playerNumber
 		+ " built a total of " + t.piecesBuilt + " pieces." + "\n" + "The competiton lasted " + days + " days.";
 	return s;
 
@@ -92,8 +119,16 @@ public class LegoSetCompetition {
 
 	CompetitionLog.totalPieces = legoPieces1 + legoPieces2 + legoPieces3;
 
-	CompetitionLog x = new CompetitionLog(1, "", legoSet1 + " " + legoSet2 + " " + legoSet3, 0);
-	CompetitionLog y = new CompetitionLog(2, "", legoSet1 + legoSet2 + legoSet3, 0);
+	CompetitionLog x = new CompetitionLog(1, "", "", 0);
+	CompetitionLog y = new CompetitionLog(2, "", "", 0);
+
+	CompetitionLog.set1 = legoSet1;
+	CompetitionLog.set2 = legoSet2;
+	CompetitionLog.set3 = legoSet3;
+
+	CompetitionLog.num1 = legoPieces1;
+	CompetitionLog.num2 = legoPieces2;
+	CompetitionLog.num3 = legoPieces3;
 
 	while (x.getPiecesBuilt() < CompetitionLog.totalPieces && y.getPiecesBuilt() < CompetitionLog.totalPieces) {
 	    System.out.println("Enter the number of pieces player 1 used for building on day " + CompetitionLog.days);
@@ -103,6 +138,8 @@ public class LegoSetCompetition {
 
 	    x.setPiecesBuilt(x.getPiecesBuilt() + a);
 	    y.setPiecesBuilt(y.getPiecesBuilt() + b);
+	    x.calc();
+	    y.calc();
 
 	    if (x.getPiecesBuilt() >= CompetitionLog.totalPieces && y.getPiecesBuilt() >= CompetitionLog.totalPieces) {
 		x.setPiecesBuilt(0);
