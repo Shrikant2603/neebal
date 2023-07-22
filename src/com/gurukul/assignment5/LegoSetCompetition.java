@@ -9,6 +9,7 @@ class CompetitionLog {
     private int piecesBuilt;
     static int days = 1;
     static int totalPieces;
+    String previousSet;
     static String set1;
     static String set2;
     static String set3;
@@ -54,7 +55,7 @@ class CompetitionLog {
     public void calc() {
 	int remPieces = this.getPiecesBuilt();
 	if (remPieces >= num1) {
-	    this.setCompleteSets(this.getCompleteSets() + set1 + ", ");
+	    this.setCompleteSets(set1);
 	    this.setIncompleteSets(set2 + ", " + set3);
 	}
 	remPieces -= num1;
@@ -85,10 +86,9 @@ class CompetitionLog {
 		+ "Additional information about the competition results is below" + "\n" + "Player " + this.playerNumber
 		+ " completed the following sets: " + this.completeSets + "\n" + "Player " + this.playerNumber
 		+ " did not complet the following sets :" + this.incompleteSets + "\n" + "Player " + this.playerNumber
-		+ " built a total of " + this.piecesBuilt + " pieces." + "\n"
-		+ "Additional information about the competition results is below" + "\n" + "Player " + t.playerNumber
+		+ " built a total of " + this.piecesBuilt + " pieces." + "\n" + "Player " + t.playerNumber
 		+ " completed the following sets :" + t.completeSets + "\n" + "Player " + t.playerNumber
-		+ " did not complete the following sets :" + t.incompleteSets + "\n" + "Player " + t.playerNumber
+		+ " did not complete the following sets : " + t.incompleteSets + "\n" + "Player " + t.playerNumber
 		+ " built a total of " + t.piecesBuilt + " pieces." + "\n" + "The competiton lasted " + days + " days.";
 	return s;
 
@@ -100,58 +100,68 @@ public class LegoSetCompetition {
 
     public static void main(String[] args) {
 	// TODO Auto-generated method stub
-	Scanner sc = new Scanner(System.in);
-	System.out.println("Welcome to the Lego Set Competition!");
-	System.out.println("Enter the name of Lego Set 1");
-	String legoSet1 = sc.nextLine();
-	System.out.println("Enter the number of pieces in Lego Set 1");
-	int legoPieces1 = sc.nextInt();
-	sc.nextLine();
-	System.out.println("Enter the name of Lego Set 2");
-	String legoSet2 = sc.nextLine();
-	System.out.println("Enter the number of pieces in Lego Set 2");
-	int legoPieces2 = sc.nextInt();
-	sc.nextLine();
-	System.out.println("Enter the name of Lego Set 3");
-	String legoSet3 = sc.nextLine();
-	System.out.println("Enter the number of pieces in Lego Set 3");
-	int legoPieces3 = sc.nextInt();
+	boolean flag = true;
 
-	CompetitionLog.totalPieces = legoPieces1 + legoPieces2 + legoPieces3;
+	while (flag) {
+	    Scanner sc = new Scanner(System.in);
+	    System.out.println("Welcome to the Lego Set Competition!");
+	    System.out.println("Enter the name of Lego Set 1");
+	    String legoSet1 = sc.nextLine();
+	    System.out.println("Enter the number of pieces in Lego Set 1");
+	    int legoPieces1 = sc.nextInt();
+	    sc.nextLine();
+	    System.out.println("Enter the name of Lego Set 2");
+	    String legoSet2 = sc.nextLine();
+	    System.out.println("Enter the number of pieces in Lego Set 2");
+	    int legoPieces2 = sc.nextInt();
+	    sc.nextLine();
+	    System.out.println("Enter the name of Lego Set 3");
+	    String legoSet3 = sc.nextLine();
+	    System.out.println("Enter the number of pieces in Lego Set 3");
+	    int legoPieces3 = sc.nextInt();
 
-	CompetitionLog x = new CompetitionLog(1, "", "", 0);
-	CompetitionLog y = new CompetitionLog(2, "", "", 0);
+	    CompetitionLog.totalPieces = legoPieces1 + legoPieces2 + legoPieces3;
 
-	CompetitionLog.set1 = legoSet1;
-	CompetitionLog.set2 = legoSet2;
-	CompetitionLog.set3 = legoSet3;
+	    CompetitionLog x = new CompetitionLog(1, " none", legoSet1 + ", " + legoSet2 + ", " + legoSet3, 0);
+	    CompetitionLog y = new CompetitionLog(2, " none", legoSet1 + ", " + legoSet2 + ", " + legoSet3, 0);
 
-	CompetitionLog.num1 = legoPieces1;
-	CompetitionLog.num2 = legoPieces2;
-	CompetitionLog.num3 = legoPieces3;
+	    CompetitionLog.set1 = legoSet1;
+	    CompetitionLog.set2 = legoSet2;
+	    CompetitionLog.set3 = legoSet3;
 
-	while (x.getPiecesBuilt() < CompetitionLog.totalPieces && y.getPiecesBuilt() < CompetitionLog.totalPieces) {
-	    System.out.println("Enter the number of pieces player 1 used for building on day " + CompetitionLog.days);
-	    int a = sc.nextInt();
-	    System.out.println("Enter the number of pieces player 2 used for building on day " + CompetitionLog.days);
-	    int b = sc.nextInt();
+	    CompetitionLog.num1 = legoPieces1;
+	    CompetitionLog.num2 = legoPieces2;
+	    CompetitionLog.num3 = legoPieces3;
 
-	    x.setPiecesBuilt(x.getPiecesBuilt() + a);
-	    y.setPiecesBuilt(y.getPiecesBuilt() + b);
-	    x.calc();
-	    y.calc();
+	    while (x.getPiecesBuilt() < CompetitionLog.totalPieces && y.getPiecesBuilt() < CompetitionLog.totalPieces) {
+		System.out
+			.println("Enter the number of pieces player 1 used for building on day " + CompetitionLog.days);
+		int a = sc.nextInt();
+		System.out
+			.println("Enter the number of pieces player 2 used for building on day " + CompetitionLog.days);
+		int b = sc.nextInt();
 
-	    if (x.getPiecesBuilt() >= CompetitionLog.totalPieces && y.getPiecesBuilt() >= CompetitionLog.totalPieces) {
-		x.setPiecesBuilt(0);
-		y.setPiecesBuilt(0);
-		System.out.println("The competition ended in a tie! There will be a tiebreaker round");
+		x.setPiecesBuilt(x.getPiecesBuilt() + a);
+		y.setPiecesBuilt(y.getPiecesBuilt() + b);
+		x.calc();
+		y.calc();
+
+		if (x.getPiecesBuilt() >= CompetitionLog.totalPieces
+			&& y.getPiecesBuilt() >= CompetitionLog.totalPieces) {
+		    x.setPiecesBuilt(0);
+		    y.setPiecesBuilt(0);
+		    System.out.println("The competition ended in a tie! There will be a tiebreaker round");
+		    break;
+		}
+		if (x.getPiecesBuilt() >= CompetitionLog.totalPieces) {
+		    System.out.println(x.printResult(y));
+		    flag = false;
+		} else if (y.getPiecesBuilt() >= CompetitionLog.totalPieces) {
+		    flag = false;
+		    System.out.println(y.printResult(x));
+		}
+		CompetitionLog.days++;
 	    }
-	    if (x.getPiecesBuilt() >= CompetitionLog.totalPieces) {
-		System.out.println(x.printResult(y));
-	    } else if (y.getPiecesBuilt() >= CompetitionLog.totalPieces) {
-		System.out.println(y.printResult(x));
-	    }
-	    CompetitionLog.days++;
 	}
     }
 
