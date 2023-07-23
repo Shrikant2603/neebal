@@ -8,14 +8,15 @@ class CompetitionLog {
     private String incompleteSets;
     private int piecesBuilt;
     static int days = 1;
-    static int totalPieces;
-    String previousSet;
-    static String set1;
-    static String set2;
-    static String set3;
-    static int num1;
-    static int num2;
-    static int num3;
+    static int previoustotalPieces;
+    static String previousSet = "";
+    public int currentTotalPieces;
+    String set1;
+    String set2;
+    String set3;
+    int num1;
+    int num2;
+    int num3;
 
     CompetitionLog(int playerName, String completeSets, String incompleteSets, int piecesBuilt) {
 	this.playerNumber = playerName;
@@ -84,12 +85,14 @@ class CompetitionLog {
 	// TODO Auto-generated method stub
 	String s = "Congratulations to player " + this.playerNumber + " for winning the Lego Set Competition!" + "\n"
 		+ "Additional information about the competition results is below" + "\n" + "Player " + this.playerNumber
-		+ " completed the following sets: " + this.completeSets + "\n" + "Player " + this.playerNumber
-		+ " did not complet the following sets :" + this.incompleteSets + "\n" + "Player " + this.playerNumber
-		+ " built a total of " + this.piecesBuilt + " pieces." + "\n" + "Player " + t.playerNumber
-		+ " completed the following sets :" + t.completeSets + "\n" + "Player " + t.playerNumber
-		+ " did not complete the following sets : " + t.incompleteSets + "\n" + "Player " + t.playerNumber
-		+ " built a total of " + t.piecesBuilt + " pieces." + "\n" + "The competiton lasted " + days + " days.";
+		+ " completed the following sets: " + previousSet + this.completeSets + "\n" + "Player "
+		+ this.playerNumber + " did not complet the following sets :" + this.incompleteSets + "\n" + "Player "
+		+ this.playerNumber + " built a total of " + (previoustotalPieces + this.currentTotalPieces)
+		+ " pieces." + "\n" + "Player " + t.playerNumber + " completed the following sets :" + previousSet
+		+ t.completeSets + "\n" + "Player " + t.playerNumber + " did not complete the following sets : "
+		+ t.incompleteSets + "\n" + "Player " + t.playerNumber + " built a total of "
+		+ (previoustotalPieces + t.piecesBuilt) + " pieces." + "\n" + "The competiton lasted " + days
+		+ " days.";
 	return s;
 
     }
@@ -120,20 +123,28 @@ public class LegoSetCompetition {
 	    System.out.println("Enter the number of pieces in Lego Set 3");
 	    int legoPieces3 = sc.nextInt();
 
-	    CompetitionLog.totalPieces = legoPieces1 + legoPieces2 + legoPieces3;
-
 	    CompetitionLog x = new CompetitionLog(1, " none", legoSet1 + ", " + legoSet2 + ", " + legoSet3, 0);
 	    CompetitionLog y = new CompetitionLog(2, " none", legoSet1 + ", " + legoSet2 + ", " + legoSet3, 0);
 
-	    CompetitionLog.set1 = legoSet1;
-	    CompetitionLog.set2 = legoSet2;
-	    CompetitionLog.set3 = legoSet3;
+	    x.currentTotalPieces = legoPieces1 + legoPieces2 + legoPieces3;
 
-	    CompetitionLog.num1 = legoPieces1;
-	    CompetitionLog.num2 = legoPieces2;
-	    CompetitionLog.num3 = legoPieces3;
+	    x.set1 = legoSet1;
+	    x.set2 = legoSet2;
+	    x.set3 = legoSet3;
 
-	    while (x.getPiecesBuilt() < CompetitionLog.totalPieces && y.getPiecesBuilt() < CompetitionLog.totalPieces) {
+	    x.num1 = legoPieces1;
+	    x.num2 = legoPieces2;
+	    x.num3 = legoPieces3;
+
+	    y.set1 = legoSet1;
+	    y.set2 = legoSet2;
+	    y.set3 = legoSet3;
+
+	    y.num1 = legoPieces1;
+	    y.num2 = legoPieces2;
+	    y.num3 = legoPieces3;
+
+	    while (x.getPiecesBuilt() < x.currentTotalPieces && y.getPiecesBuilt() < x.currentTotalPieces) {
 		System.out
 			.println("Enter the number of pieces player 1 used for building on day " + CompetitionLog.days);
 		int a = sc.nextInt();
@@ -146,17 +157,18 @@ public class LegoSetCompetition {
 		x.calc();
 		y.calc();
 
-		if (x.getPiecesBuilt() >= CompetitionLog.totalPieces
-			&& y.getPiecesBuilt() >= CompetitionLog.totalPieces) {
+		if (x.getPiecesBuilt() >= x.currentTotalPieces && y.getPiecesBuilt() >= x.currentTotalPieces) {
 		    x.setPiecesBuilt(0);
 		    y.setPiecesBuilt(0);
 		    System.out.println("The competition ended in a tie! There will be a tiebreaker round");
+		    CompetitionLog.previousSet += legoSet1 + ", " + legoSet2 + ", " + legoSet3;
+		    CompetitionLog.previoustotalPieces += legoPieces1 + legoPieces2 + legoPieces3;
 		    break;
 		}
-		if (x.getPiecesBuilt() >= CompetitionLog.totalPieces) {
+		if (x.getPiecesBuilt() >= x.currentTotalPieces) {
 		    System.out.println(x.printResult(y));
 		    flag = false;
-		} else if (y.getPiecesBuilt() >= CompetitionLog.totalPieces) {
+		} else if (y.getPiecesBuilt() >= x.currentTotalPieces) {
 		    flag = false;
 		    System.out.println(y.printResult(x));
 		}
