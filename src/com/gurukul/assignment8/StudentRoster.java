@@ -79,6 +79,7 @@ class Student1 {
 public class StudentRoster {
 
     public static List<Student1> studentRoster = new ArrayList<>();
+    public static List<Student1> enRolledStudent = new ArrayList<>();
     public static List<Course> courseList = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -160,18 +161,29 @@ public class StudentRoster {
 	    System.out.println("There is no student in the roster with this ID.");
 	    return;
 	}
+	System.out.println(" Course Id: 385 Course: Science and Course Sem: 1");
+	System.out.println(" Course Id: 948 Course: Math and Course Sem: 2");
+	System.out.println(" Course Id: 294 Course: Biology and Course Sem: 3");
+	System.out.println(" Course Id: 581 Course: Physics and Course Sem: 2");
+	System.out.println(" Course Id: 825 Course: History and Course Sem: 4");
+	System.out.println();
 
-	System.out.print("Enter course ID: ");
-	String courseId = sc.next();
+	String courseId;
+	Course existingCourse;
+	System.out.print("Choose and enter Course ID from");
+	do {
+	    courseId = sc.next();
+	    existingCourse = findCourseById(courseId);
+	    if (existingCourse == null) {
+		System.out.println("No course exists with this ID, please eneter a valid ID");
+	    } else {
+		student.getCourses().add(existingCourse);
+		enRolledStudent.add(findStudentById(studentId));
+		System.out.println("Student enrolled in the course.");
+	    }
+	} while (existingCourse == null);
 	Course course = findCourseById(courseId);
 
-	if (course == null) {
-	    System.out.println("Invalid course ID. Course not found.");
-	    return;
-	}
-
-	student.getCourses().add(course);
-	System.out.println("Student enrolled in the course.");
     }
 
     private static void displayEnrolledCourses() {
@@ -194,15 +206,12 @@ public class StudentRoster {
 
     private static void displayStudents() {
 	System.out.println("List of all students along with their enrolled courses:");
-	for (Student1 student : studentRoster) {
+	for (Student1 student : enRolledStudent) {
 	    System.out.println("Student ID: " + student.getId() + ", Name: " + student.getName());
-	    if (student.getCourses().isEmpty()) {
-		System.out.println("    No enrolled courses.");
-	    } else {
-		for (Course course : student.getCourses()) {
-		    System.out.println("    Course ID: " + course.getId() + ", Course Name: " + course.getName()
-			    + ", Semester: " + course.getSem());
-		}
+
+	    for (Course course : student.getCourses()) {
+		System.out.println("    Course ID: " + course.getId() + ", Course Name: " + course.getName()
+			+ ", Semester: " + course.getSem());
 	    }
 	}
     }
