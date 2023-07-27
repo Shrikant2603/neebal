@@ -113,6 +113,7 @@ public class StudentRoster {
 		break;
 	    case 6:
 		System.out.println("Exiting the program.");
+		System.out.println("Program ended.");
 		break;
 	    default:
 		System.out.println("Invalid input. Please try again.");
@@ -170,7 +171,7 @@ public class StudentRoster {
 
 	String courseId;
 	Course existingCourse;
-	System.out.print("Choose and enter Course ID from");
+	System.out.print("Choose and enter Course ID from above");
 	do {
 	    courseId = sc.next();
 	    existingCourse = findCourseById(courseId);
